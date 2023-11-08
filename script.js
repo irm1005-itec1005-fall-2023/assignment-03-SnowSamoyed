@@ -10,6 +10,7 @@
  * 3. Mark a todo item as completed
  * 4. Delete a todo item
  * 5. Clear all completed todos
+ * *Add roblox responses (handles garbage data)
  *
  * The following code is the starting point for this assignment.
  *
@@ -44,6 +45,7 @@
 // }
 
 // Initialise an empty array with the variable name todoItems
+let todoItems = []
 
 // Function to add a todo to the list
 // It should accept a string as a parameter (text of the todo item)
@@ -51,8 +53,14 @@
 // the function does not need to return anything
 function addToDoItem(text) {
   // Implement the logic to add a task here
-
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  newObject = {
+      id: todoItems.length,
+      text: "This is a todo item",
+      completed: false,
+    }
+  todoItems.push(newObject)
+  /* check text is string or not */
+  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
 }
 
 // Function to remove a todo to the list
@@ -61,9 +69,18 @@ function addToDoItem(text) {
 // that matches the id passed to the function, remove it from the array
 // the function does not need to return anything
 function removeToDoItem(todoId) {
+  // console.log(todoItems)
   // Implement the logic to add a task here
-
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  for (i=0; i<todoItems.length; i++) {
+    // console.log(todoItems)
+    if (todoItems[i].id === todoId) {
+      console.log("yes");
+      todoItems.splice(i, 1)
+    }
+  }
+  /* check text is number or not */
+  /* check text is valid */
+  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
 }
 
 // Function to mark a task as completed
@@ -73,8 +90,13 @@ function removeToDoItem(todoId) {
 // the function does not need to return anything
 function markToDoItemAsCompleted(todoId) {
   // Implement the logic to mark a task as completed here
+  for (i=0; i<todoItems.length; i++) {
+    if (todoItems[i].id === todoId) {
+      todoItems[i].completed = true;
+    }
+  }
 
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
 }
 
 // Function to delete a task from the array
@@ -85,8 +107,8 @@ function markToDoItemAsCompleted(todoId) {
 // true or false depending on whether the item was successfully deleted
 function deleteToDoItem(todoId) {
   // Implement the logic to remove a task here
-
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  removeToDoItem(todoId)
+  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
 }
 
 // Function to clear all completed tasks
@@ -94,8 +116,14 @@ function deleteToDoItem(todoId) {
 // as completed, remove it completely from the array
 function clearCompletedTasks() {
   // Implement the logic to clear completed tasks here
-
-  console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  for (i=0; i<todoItems.length; i++) {
+    // console.log(todoItems)
+    if (todoItems[i].completed === true) {
+      console.log("yes");
+      todoItems.splice(i, 1)
+    }
+  }
+  console.log(todoItems); 
 }
 
 // You can write your own tests here if you would like to test
@@ -105,3 +133,18 @@ function clearCompletedTasks() {
 //  console.log(todoItems); // This should show the todo item you added
 //  removeToDoItem(0); // This should remove the todo item with ID 0 from the array
 //  markToDoItemAsCompleted(0); // This should mark the todo item with ID 0 as completed
+
+for (i=0; i<=10; i++) {
+  addToDoItem("Test ToDo"); // This should add a new todo item to the array
+}
+console.table(todoItems) // This should show the todo item you added
+
+removeToDoItem(0); // This should remove the todo item with ID 0 from the array
+console.table(todoItems) // This should show the todo item you added
+
+// todoItems[1].completed = True
+markToDoItemAsCompleted(4); // This should mark the todo item with ID 0 as completed
+console.table(todoItems) // This should show the todo item you added
+
+clearCompletedTasks() 
+console.table(todoItems) // This should show the todo item you added
