@@ -51,16 +51,55 @@ let todoItems = []
 // It should accept a string as a parameter (text of the todo item)
 // and it should add a new todo item to the todoItems array
 // the function does not need to return anything
-function addToDoItem(text) {
+function addToDoItem(input) {
   // Implement the logic to add a task here
-  newObject = {
-      id: todoItems.length,
-      text: "This is a todo item",
+  /* check text is string or not */
+  
+  if (valida_string(input) === true){
+    newObject = {
+      id: todoItems.length+1,
+      text: input,
       completed: false,
     }
-  todoItems.push(newObject)
-  /* check text is string or not */
-  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  todoItems.push(newObject);
+  console.log(`The new todo (${input}) was added`);
+  }
+  else{
+    console.log(`Error input: ${input + " (" + thisType + ")"}, NOT a valid string to add, try again.`);
+  }
+}
+
+function valida_string(input){
+  thisType = typeof input;
+  
+  if (thisType === "string"){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function valida_number(input){
+  thisType = typeof input;
+  
+  if (thisType === "number"){
+    return true;
+  }
+  else {
+    return false;
+  }
+}
+
+function valida_if_in_table(input){
+  let mark = false;
+  for (i=0; i<todoItems.length; i++) {
+    if (todoItems[i].id === input) {
+      mark = true;
+    }
+  }
+  // console.log(mark);
+  return mark;
 }
 
 // Function to remove a todo to the list
@@ -71,16 +110,20 @@ function addToDoItem(text) {
 function removeToDoItem(todoId) {
   // console.log(todoItems)
   // Implement the logic to add a task here
-  for (i=0; i<todoItems.length; i++) {
-    // console.log(todoItems)
-    if (todoItems[i].id === todoId) {
-      console.log("yes");
-      todoItems.splice(i, 1)
+  if (valida_number(todoId) === true && valida_if_in_table(todoId) === true){ /* add && later */
+    for (i=0; i<todoItems.length; i++) {
+      if (todoItems[i].id === todoId) {
+        todoItems.splice(i, 1);
+        console.log(`The todo ${todoId} was removed below: `);
+      }
     }
   }
-  /* check text is number or not */
-  /* check text is valid */
-  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  else if (valida_number(todoId) === false){
+    console.log(`Error Input: ${todoId + " (" + thisType + ")"}, NOT a valid todo id number to remove, try again.`);
+  }
+  else if (valida_if_in_table(todoId) === false){
+    console.log(`Error Input: ${todoId + " (" + thisType + ")"}, this id was NOT in the todo list.`);
+  }
 }
 
 // Function to mark a task as completed
@@ -90,13 +133,19 @@ function removeToDoItem(todoId) {
 // the function does not need to return anything
 function markToDoItemAsCompleted(todoId) {
   // Implement the logic to mark a task as completed here
-  for (i=0; i<todoItems.length; i++) {
-    if (todoItems[i].id === todoId) {
-      todoItems[i].completed = true;
+  if (valida_number(todoId) === true && valida_if_in_table(todoId) === true){
+    for (i=0; i<todoItems.length; i++) {
+      if (todoItems[i].id === todoId) {
+        todoItems[i].completed = true;
+      }
     }
   }
-
-  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
+  else if (valida_number(todoId) === false){
+    console.log(`Error Input: ${todoId + " (" + thisType + ")"}, NOT a valid todo id number to mark, try again.`);
+  }
+  else if (valida_if_in_table(todoId) === false){
+    console.log(`Error Input: ${todoId + " (" + thisType + ")"}, this id was NOT in the todo list.`);
+  }
 }
 
 // Function to delete a task from the array
@@ -108,7 +157,6 @@ function markToDoItemAsCompleted(todoId) {
 function deleteToDoItem(todoId) {
   // Implement the logic to remove a task here
   removeToDoItem(todoId)
-  // console.log("NOT YET IMPLEMENTED"); // Remove this line when you start working on the function
 }
 
 // Function to clear all completed tasks
@@ -119,7 +167,7 @@ function clearCompletedTasks() {
   for (i=0; i<todoItems.length; i++) {
     // console.log(todoItems)
     if (todoItems[i].completed === true) {
-      console.log("yes");
+      console.log(`The completed todo ${todoItems[i].id} was removed below: `);
       todoItems.splice(i, 1)
     }
   }
@@ -134,16 +182,34 @@ function clearCompletedTasks() {
 //  removeToDoItem(0); // This should remove the todo item with ID 0 from the array
 //  markToDoItemAsCompleted(0); // This should mark the todo item with ID 0 as completed
 
-for (i=0; i<=10; i++) {
+/* Comment everything from here when click Run Tests */
+console.log("-------add functions test------")
+for (i=1; i<=10; i++) {
   addToDoItem("Test ToDo"); // This should add a new todo item to the array
 }
 console.table(todoItems) // This should show the todo item you added
 
-removeToDoItem(0); // This should remove the todo item with ID 0 from the array
+/* Validate for input type */
+addToDoItem(5)
+addToDoItem(["Testing"])
+console.table(todoItems)
+
+console.log("-------remove functions test------")
+removeToDoItem(1); // This should remove the todo item with ID 0 from the array
 console.table(todoItems) // This should show the todo item you added
 
-// todoItems[1].completed = True
+/* Validate for input type */
+removeToDoItem("5")
+removeToDoItem(["Test ToDo"])
+removeToDoItem(5)
+removeToDoItem(13)
+console.table(todoItems)
+
+
+console.log("-------completed functions test------")
+// todoItems[1].completed = true;
 markToDoItemAsCompleted(4); // This should mark the todo item with ID 0 as completed
+markToDoItemAsCompleted(15);
 console.table(todoItems) // This should show the todo item you added
 
 clearCompletedTasks() 
