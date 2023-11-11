@@ -46,6 +46,7 @@
 
 // Initialise an empty array with the variable name todoItems
 let todoItems = []
+let count = 0;
 
 // Function to add a todo to the list
 // It should accept a string as a parameter (text of the todo item)
@@ -54,15 +55,18 @@ let todoItems = []
 function addToDoItem(input) {
   // Implement the logic to add a task here
   /* check text is string or not */
-  
   if (valida_string(input) === true){
+    count = count + 1;
     newObject = {
-      id: todoItems.length+1,
+      id: count,
       text: input,
       completed: false,
     }
-  todoItems.push(newObject);
-  console.log(`The new todo (${input}) was added`);
+    todoItems.push(newObject);
+    console.log(`The new todo (${input}) was added`);
+  }
+  else if (valida_if_in_table(input)=== false){
+    console.log(`Error input: ${input + " (" + thisType + ")"}, id already in list, try again.`);
   }
   else{
     console.log(`Error input: ${input + " (" + thisType + ")"}, NOT a valid string to add, try again.`);
@@ -182,35 +186,113 @@ function clearCompletedTasks() {
 //  removeToDoItem(0); // This should remove the todo item with ID 0 from the array
 //  markToDoItemAsCompleted(0); // This should mark the todo item with ID 0 as completed
 
-/* Comment everything from here when click Run Tests */
-console.log("-------add functions test------")
-for (i=1; i<=10; i++) {
-  addToDoItem("Test ToDo"); // This should add a new todo item to the array
+
+/* Comment everything from here when click Run Tests -----------------------------------------*/
+function console_testing(){
+  console.log("-------add functions test------")
+  for (i=1; i<=10; i++) {
+    addToDoItem("Test ToDo"); 
+  }
+  console.table(todoItems) 
+
+  /* Validate for input type */
+  addToDoItem(5)
+  addToDoItem(["Testing"])
+  console.table(todoItems)
+  console.log(count);
+
+  console.log("-------remove functions test------")
+  removeToDoItem(1); // This should remove the todo item with ID 0 from the array
+  console.table(todoItems) // This should show the todo item you added
+
+  /* Validate for input type */
+  removeToDoItem("5")
+  removeToDoItem(["Test ToDo"])
+  removeToDoItem(5)
+  removeToDoItem(13)
+  console.table(todoItems)
+
+
+  console.log("-------completed functions test------")
+  // todoItems[1].completed = true;
+  markToDoItemAsCompleted(4); // This should mark the todo item with ID 0 as completed
+  markToDoItemAsCompleted(15);
+  console.table(todoItems) // This should show the todo item you added
+  console.log(count);
+
+  clearCompletedTasks() 
+  console.table(todoItems) // This should show the todo item you added
+  console.log(count);
 }
-console.table(todoItems) // This should show the todo item you added
+  
 
-/* Validate for input type */
-addToDoItem(5)
-addToDoItem(["Testing"])
-console.table(todoItems)
+// Put userInputTest() in console to use
+function userInputTest(){
+  let flag = true;
+  while (flag === true){
 
-console.log("-------remove functions test------")
-removeToDoItem(1); // This should remove the todo item with ID 0 from the array
-console.table(todoItems) // This should show the todo item you added
+    let choice = prompt("Modify you todos here by enter numbers \n1.Add todo items \n2.Remove todo items  \n3.Mark items done  \n4.Remove done items \n5.Exit ");
 
-/* Validate for input type */
-removeToDoItem("5")
-removeToDoItem(["Test ToDo"])
-removeToDoItem(5)
-removeToDoItem(13)
-console.table(todoItems)
+    if (choice === "1") {
+      let userInput = prompt("Enter a string for text to add in todos.")
+      addToDoItem(userInput);
+    }
+    else if (choice === "2") {
+      tag = true;
+      while (tag = true){
+        let userInput = prompt("Enter a id number to remove in todos.")
+        userInput = parseInt(userInput);
+        if (isNaN(userInput) === false){
+          removeToDoItem(userInput);
+          break
+        }
+        else if (isNaN(userInput) === true){
+          console.log("Invalid entry.")
+          userInput = prompt("Did not recieve valid id number, try again. y or n.")
+          if (userInput === "n"){
+            break
+          }
+          else if (userInput === "y"){
+            tag = true;
+          }
+        }
+      }
+    }
 
+    else if (choice === "3") {
+      while (tag = true){
+        let userInput = prompt("Enter a id number to mark completed in todos.")
+        userInput = parseInt(userInput);
+        if (isNaN(userInput) === false){
+          markToDoItemAsCompleted(userInput);
+          break
+        }
+        else if (isNaN(userInput) === true){
+          console.log("Invalid entry.")
+          userInput = prompt("Did not recieve valid id number, try again. y or n.")
+          if (userInput === "n"){
+            break
+          }
+          else if (userInput === "y"){
+            tag = true;
+          }
+        }
+      }
+    }
+    else if (choice === "5"){
+      flag = false;
+    }
+    else{
+      console.log("Invalid choice. We only have 5 functions.")
+    }
+    console.table(todoItems) 
+    console.log("You have " + todoItems.length + " todos in list.\n ");
+  }
+}
 
-console.log("-------completed functions test------")
-// todoItems[1].completed = true;
-markToDoItemAsCompleted(4); // This should mark the todo item with ID 0 as completed
-markToDoItemAsCompleted(15);
-console.table(todoItems) // This should show the todo item you added
-
-clearCompletedTasks() 
-console.table(todoItems) // This should show the todo item you added
+/* Comment them out to test */
+// for (i=1; i<=10; i++) {
+//   addToDoItem("Test ToDo"); 
+// }
+// console.table(todoItems) 
+// userInputTest()
